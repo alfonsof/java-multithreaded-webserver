@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.alfonsof.webserver</groupId>
-    <artifactId>WebServer</artifactId>
+    <artifactId>java-multithreaded-webserver</artifactId>
     <version>1.1.2</version>
     <packaging>jar</packaging>
-    <name>WebServer</name>
+    <name>Java Multithreaded Webserver</name>
     <description>Multi-threaded web server with thread-pooling</description>
   
     <properties>
