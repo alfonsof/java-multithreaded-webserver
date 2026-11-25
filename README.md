@@ -27,7 +27,7 @@ A lightweight, multithreaded HTTP web server built from scratch in Java, featuri
 
 * The code was written for:
  
-  *  Java 8
+  *  Java
 
 ## Libraries
 
