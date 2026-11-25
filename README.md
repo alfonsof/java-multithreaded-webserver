@@ -83,7 +83,13 @@ You can run the integration tests using the `WebServerIT` class (make sure the W
 
 ## Documentation
 
-* The Javadoc documentation is available in the `docs` directory.
+You can generate the Javadoc documentation locally using Maven:
+
+  ```bash
+  mvn javadoc:javadoc
+  ```
+
+Once generated, open `target/site/apidocs/index.html` in your browser to view the API documentation.
 
 ## License
 
