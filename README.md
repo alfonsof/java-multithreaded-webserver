@@ -81,6 +81,40 @@ You can run the integration tests using the `WebServerIT` class (make sure the W
   mvn test -Dtest=WebServerIT
   ```
 
+## Code Quality (SonarQube)
+
+This project includes a `sonar-project.properties` configuration file to run static code analysis using **SonarQube** and **SonarScanner CLI**.
+
+### 1. Configuration (`sonar-project.properties`)
+
+Ensure the properties match your local SonarQube instance and compiled paths:
+
+```properties
+sonar.projectKey=com.alfonsof.webserver:java-multithreaded-webserver
+sonar.projectName=Java Multithreaded Webserver
+sonar.projectVersion=1.1.2
+
+sonar.sources=src/main/java
+sonar.tests=src/test/java
+sonar.java.binaries=target/classes
+sonar.java.test.binaries=target/test-classes
+
+sonar.sourceEncoding=UTF-8
+sonar.java.source=8
+```
+
+### 2. Run Analysis
+
+1. Compile the project so SonarScanner can inspect the bytecode:
+   ```bash
+   mvn clean test-compile
+   ```
+2. Run **SonarScanner CLI** pointing to your SonarQube server (`http://localhost:9000` by default) with your generated project token:
+   ```bash
+   sonar-scanner -Dsonar.host.url=http://localhost:9000 -Dsonar.token=<YOUR_SONAR_TOKEN>
+   ```
+3. View the analysis report at `http://localhost:9000`.
+
 ## Documentation
 
 ### Javadoc (Maven)
@@ -102,3 +136,5 @@ Open `target/doxygen/html/index.html` in your browser.
 ## License
 
 This code is released under the MIT License. See LICENSE file.
+
+sonar-scanner.bat "-Dsonar.host.url=http://localhost:9000" "-Dsonar.token=TU_TOKEN_AQUI"
