@@ -83,13 +83,21 @@ You can run the integration tests using the `WebServerIT` class (make sure the W
 
 ## Documentation
 
-You can generate the Javadoc documentation locally using Maven:
+### Javadoc (Maven)
+Generate the standard Java API documentation using Maven:
 
-  ```bash
-  mvn javadoc:javadoc
-  ```
+```bash
+mvn javadoc:javadoc
+```
+Open `target/site/apidocs/index.html` in your browser.
 
-Once generated, open `target/site/apidocs/index.html` in your browser to view the API documentation.
+### Doxygen
+Generate extended documentation (requires [Doxygen](https://doxygen.nl) installed):
+
+```bash
+doxygen Doxyfile
+```
+Open `target/doxygen/html/index.html` in your browser.
 
 ## License
 
