@@ -35,8 +35,8 @@ A lightweight, multithreaded HTTP web server built from scratch in Java, featuri
 The Web Server uses the following libraries:
 
 - **Apache Log4j 2:** Used for logging. Writes informative, warning, and error messages to the console and to a rolling file in the `logs/` directory (configured via `log4j2.xml`).
-- **JUnit 4:** Used for unit and integration testing via the `WebServerIT` class.
-- **Apache HttpComponents:** Used by `WebServerIT` to send HTTP commands to the Web Server during tests.
+- **JUnit 5:** Used for unit and integration testing via the `WebServerIT` class.
+- **Apache HttpComponents 5:** Used by `WebServerIT` to send HTTP commands to the Web Server during tests.
 
 ## Build & Run
 
