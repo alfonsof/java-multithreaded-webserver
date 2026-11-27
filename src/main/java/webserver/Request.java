@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class Request {
 
-    private static final Pattern HEADER_LINE_ACCEPTED = Pattern.compile("([^:]*):\\s*(.*)");
+    private static final Pattern HEADER_LINE_ACCEPTED = Pattern.compile("([^:]*+):\\s*+(.*)");
     private static final Logger logger = LogManager.getLogger(Request.class.getName());
     private ServerSettings serverSettings;
     private Socket clientSocket;
