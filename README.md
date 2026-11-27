@@ -25,7 +25,7 @@ A lightweight, multithreaded HTTP web server built from scratch in Java, featuri
 
 ## Requirements
 
-* The code was written for:
+The code was written for:
  
   *  Java
   *  Apache Maven 3
@@ -41,9 +41,9 @@ The Web Server uses the following libraries:
 ## Build & Run
 
 ### 1. Build the JAR file
-Create `webserver.jar` with all dependencies:
-* **Maven:** `mvn package`
-* **Eclipse:** Export via **File > Export > Runnable JAR file**, selecting **Extract required libraries into generated JAR** as `webserver.jar`.
+Create `webserver.jar` with all dependencies using **Maven:**
+
+`mvn package`
 
 ### 2. Run the Web Server
 * **Default logging** (errors only to console):
