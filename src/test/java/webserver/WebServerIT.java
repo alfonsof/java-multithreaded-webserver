@@ -1,13 +1,14 @@
-/**
- * Test the Web Server
- */
 package webserver;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import org.apache.hc.client5.http.classic.methods.HttpDelete;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
@@ -24,37 +25,31 @@ import org.apache.hc.core5.http.HttpVersion;
 import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.ProtocolVersion;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.Socket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the Web Server
  * @author Alfonso Fernandez-Barandiaran
  */
-public class WebServerIT {
+class WebServerIT {
 
     private static final String LOCAL_HOST_TEXT = "http://localhost:";
     private static final String USER_AGENT_TEXT = "User-Agent";
     private static final String USER_AGENT = "Mozilla/5.0";
     private static final Logger logger = LogManager.getLogger(WebServerIT.class);
 
+    private static int serverPort;
     private static String testUrl;
     private static String testBadRequestUrl;
     private static String testNotFoundUrl;
 
-    /**
-     * Setup before tests
-     */
-    @BeforeClass
-    public static void setUpBeforeClass() {
+    @BeforeAll
+    static void setUpBeforeClass() {
         ServerSettings serverSettings = new ServerSettings(true);
-        int serverPort = serverSettings.getServerPort();
+        serverPort = serverSettings.getServerPort();
         logger.info("\nServerPort : {}", serverPort);
 
         String baseUrl = LOCAL_HOST_TEXT + serverPort;
@@ -69,42 +64,42 @@ public class WebServerIT {
     }
 
     @Test
-    public void testGETRequest() {
+    void testGETRequest() {
         executeAndAssertStatus(new HttpGet(testUrl), HttpStatus.SC_OK, "testGETRequest");
     }
 
     @Test
-    public void testHEADRequest() {
+    void testHEADRequest() {
         executeAndAssertStatus(new HttpHead(testUrl), HttpStatus.SC_OK, "testHEADRequest");
     }
 
     @Test
-    public void testPOSTRequest() {
+    void testPOSTRequest() {
         executeAndAssertStatus(new HttpPost(testUrl), HttpStatus.SC_NOT_IMPLEMENTED, "testPOSTRequest");
     }
 
     @Test
-    public void testOPTIONSRequest() {
+    void testOPTIONSRequest() {
         executeAndAssertStatus(new HttpOptions(testUrl), HttpStatus.SC_NOT_IMPLEMENTED, "testOPTIONSRequest");
     }
 
     @Test
-    public void testPUTRequest() {
+    void testPUTRequest() {
         executeAndAssertStatus(new HttpPut(testUrl), HttpStatus.SC_NOT_IMPLEMENTED, "testPUTRequest");
     }
 
     @Test
-    public void testDELETERequest() {
+    void testDELETERequest() {
         executeAndAssertStatus(new HttpDelete(testUrl), HttpStatus.SC_NOT_IMPLEMENTED, "testDELETERequest");
     }
 
     @Test
-    public void testTRACERequest() {
+    void testTRACERequest() {
         executeAndAssertStatus(new HttpTrace(testUrl), HttpStatus.SC_NOT_IMPLEMENTED, "testTRACERequest");
     }
 
     @Test
-    public void testOKURL() {
+    void testOKURL() {
         HttpGet request = new HttpGet(testUrl);
         request.addHeader(USER_AGENT_TEXT, USER_AGENT);
         logger.info("\nSending 'GET' request to URL : {}", testUrl);
@@ -118,7 +113,8 @@ public class WebServerIT {
                     try {
                         String body = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
                         logger.info(body);
-                        assertFalse("Response body should not be empty", body.isEmpty());
+                        // En JUnit 5 el mensaje va al final
+                        assertFalse(body.isEmpty(), "Response body should not be empty");
                     } catch (ParseException e) {
                         throw new IOException("Error parsing response body", e);
                     }
@@ -134,28 +130,27 @@ public class WebServerIT {
     }
 
     @Test
-    public void testBadRequestURL() {
+    void testBadRequestURL() {
         executeAndAssertStatus(new HttpGet(testBadRequestUrl), HttpStatus.SC_BAD_REQUEST, "testBadRequestURL");
     }
 
     @Test
-    public void testNotFoundURL() {
+    void testNotFoundURL() {
         executeAndAssertStatus(new HttpGet(testNotFoundUrl), HttpStatus.SC_NOT_FOUND, "testNotFoundURL");
     }
 
     @Test
-    public void testImplementedHttp11Version() {
+    void testImplementedHttp11Version() {
         executeGetWithProtocolVersion(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "testImplementedHttp11Version");
     }
 
     @Test
-    public void testImplemented10Version() {
+    void testImplemented10Version() {
         executeGetWithProtocolVersion(HttpVersion.HTTP_1_0, HttpStatus.SC_OK, "testImplemented10Version");
     }
 
     @Test
-    public void testNotImplementedHttp09Version() {
-        int serverPort = new ServerSettings(true).getServerPort();
+    void testNotImplementedHttp09Version() {
         logger.info("\nSending raw 'GET /index.html HTTP/0.9' request to localhost:{}", serverPort);
 
         try (Socket socket = new Socket("localhost", serverPort);
@@ -169,8 +164,9 @@ public class WebServerIT {
             String statusLine = in.readLine();
             logger.info("Raw response status line: {}", statusLine);
 
-            // Extrae el código de estado de una línea tipo "HTTP/1.1 501 Not Implemented"
-            int statusCode = Integer.parseInt(statusLine.split(" ")[1]);
+            String[] parts = statusLine.split(" ");
+            int statusCode = Integer.parseInt(parts[1]);
+
             assertEquals(HttpStatus.SC_NOT_IMPLEMENTED, statusCode);
 
         } catch (IOException e) {
