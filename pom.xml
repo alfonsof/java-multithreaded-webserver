@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.alfonsof.webserver</groupId>
     <artifactId>java-multithreaded-webserver</artifactId>
-    <version>1.1.2</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
     <name>Java Multithreaded Webserver</name>
     <description>Multi-threaded web server with thread-pooling</description>
