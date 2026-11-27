@@ -11,7 +11,7 @@
     <description>Multi-threaded web server with thread-pooling</description>
   
     <properties>
-      <jdk.version>1.8</jdk.version>
+      <jdk.version>21</jdk.version>
       <maven.compiler.source>${jdk.version}</maven.compiler.source>
       <maven.compiler.target>${jdk.version}</maven.compiler.target>
       <log4j.version>2.26.1</log4j.version>
